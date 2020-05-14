@@ -470,7 +470,8 @@ public abstract class TerminalCommands {
        try {
            return new Worker(analyzeworkinf.getmatch());
        } catch(Exception e) {
-           System.out.println("What shit is going on(");
+           System.out.println("What sh@t is going on(" + e.getClass() );
+
        }
 
        return null;

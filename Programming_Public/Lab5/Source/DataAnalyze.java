@@ -14,7 +14,7 @@ public class DataAnalyze {
     Matcher matcher;
 
 
-    Pattern datapattern = Pattern.compile("[a-zA-z]+;[-]*\\d{1,3},\\d{1,};[0-9.]+;[A-Z_]{5,26};[A-Z_]{7,};\\w+,[A-Z]{6,},[A-Z]{1}[a-z-]{1,}");
+    Pattern datapattern = Pattern.compile("[a-zA-zА-Яа-я]+;[-]*\\d{1,3},\\d{1,};[0-9.]+;[A-Z_]{5,26};[A-Z_]{7,};\\w+,[A-Z]{6,},[A-ZА-Я]{1}[a-zа-я-]{1,}");
 
     public  DataAnalyze(){
         dataArray = new String[6];
@@ -22,13 +22,14 @@ public class DataAnalyze {
 
     public DataAnalyze(String inmatch) throws Exception {
         Matcher matcher = datapattern.matcher(inmatch);
-        System.out.println(inmatch + " In Analyze");
+        System.out.print(" In analyze - ");
+        System.out.println(inmatch );
         this.match = matcher.lookingAt();
         this.dataArray = inmatch.split(";", 6);
         try {
            // this.dataArray = inmatch.split(";", 6);
         if (!match) this.getmatch();
-            System.out.println("Element data matches data format - :" + this.match);
+            System.out.println("Element data matches data format - : " + this.match);
 
         } catch (Exception e) {
             throw  e;
@@ -41,7 +42,7 @@ public class DataAnalyze {
      * @throws Exception - name of dissmatch
      */
     public boolean isMatchName() throws Exception {
-        if (Pattern.matches("[a-zA-z]+", (dataArray[0] = dataArray[0].trim()))) return true;
+        if (Pattern.matches("[a-zA-zА-Яа-я]+", (dataArray[0] = dataArray[0].trim()))) return true;
         else {
             System.out.println("Incorrect Name " );
             throw new Exception("Name");
@@ -61,7 +62,7 @@ public class DataAnalyze {
         } catch (Exception i) {
             throw new Exception("Coordinates");
         }
-        if (Integer.parseInt(coordinates[0]) > Integer.valueOf(-687) && coordinates[1] != null) {
+        if (Integer.parseInt(coordinates[0]) > Integer.valueOf(-687) && Pattern.matches("[+-]{0,1}[0-9]+",coordinates[1])) {
             dataArray[1]= coordinates[0].concat("," + coordinates[1]);
             return true;
         }
@@ -124,21 +125,23 @@ public class DataAnalyze {
         try {
             orgarray = dataArray[5].split(",", 3);
             orgarray[0] = orgarray[0].trim();
-            orgarray[1] = orgarray[1].trim().toUpperCase();
+            orgarray[1] = orgarray[1].trim();
+            orgarray[1] = orgarray[1].toUpperCase();
             orgarray[2] = orgarray[2].trim();
+            orgarray[2] = (orgarray[2].substring(0,1).toUpperCase() + orgarray[2].substring(1));
         } catch (Exception e) {
             throw new Exception("Organization Info");
         }
-        if ((OrganizationType.getOrgType(orgarray[1]) == null)) {
+        if (OrganizationType.getOrgType(orgarray[1]) == null) {
             System.out.println("Incorrect Type of Organization " );
             throw new Exception("Org");
-        } else if (!Pattern.matches("[a-zA-z-]+", orgarray[2])) {
+        } else if (!Pattern.matches("[a-zA-zА-Яа-я-]+", orgarray[2])) {
             System.out.println("Incorrect City name " );
             throw new Exception("City Incorrect");
-        } else if (!Pattern.matches("\\w+", orgarray[0])) {
+        } else if (!Pattern.matches("[\\w' 'А-Яа-я]+", orgarray[0])) {
             throw new Exception("Incorrect Name of Organization");
         } else {
-            dataArray[5].concat(orgarray[0]).concat("," + orgarray[1]).concat("," + orgarray[2]);
+            dataArray[5] = (orgarray[0] + "," + orgarray[1] + "," +  orgarray[2]);
             return true;
         }
     }

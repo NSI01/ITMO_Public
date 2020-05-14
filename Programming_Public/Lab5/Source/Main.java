@@ -4,9 +4,11 @@
  */
 package com.nsi.lab5.commandwork;
 
+import jdk.internal.util.xml.impl.ReaderUTF8;
 import sun.security.provider.PolicyParser;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -64,12 +66,13 @@ public class Main {
         /*
         *Reading data from In_File
          */
-
+        System.out.println(ZonedDateTime.now());
         try {
             filename = args[0];
         }catch (Exception e) {};
 
         while (!getData(setw)){};
+        System.out.println(ZonedDateTime.now());
         System.out.println("Reading database " + infilepath + " done");
 
         TerminalCommands.clearConsole();
@@ -100,16 +103,16 @@ public class Main {
             infilepath = Paths.get(filename).toAbsolutePath();
             if (infilepath == null) throw l;
             BufferedInputStream instream = new BufferedInputStream(Files.newInputStream(infilepath, StandardOpenOption.READ));
+            ReaderUTF8 reader = new ReaderUTF8(instream);
             workerdata = new String();
-            while ((b = instream.read()) != -1) {
+            while ((b = reader.read()) != -1) {
                 if ((char) b == '\n') {
-                    workerdata = workerdata.substring(0, workerdata.length() - 1);
+                    workerdata = workerdata.substring(0, workerdata.length());
                     setw.add(new Worker(new DataAnalyze(workerdata).getmatch()));
                     workerdata = "";
                     continue;
                 }
-                workerdata = (workerdata + (char) b);
-            }
+                workerdata = (workerdata + (char) b);          }
         } catch (Exception e) {
             System.out.println("Something wrong with In_File. Exception Message is: " + e.getMessage() );
             if(e.getClass() == java.nio.file.AccessDeniedException.class) System.out.println("I can't read file, pls change access rights");

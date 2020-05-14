@@ -18,9 +18,9 @@ public class Organization {
     private Address officialaddress; //Поле не может быть null
     public Organization (String in){
         String str[] = in.split(",",3);
-        fullName = str[0];
-        type = OrganizationType.getOrgType(str[1]);
-        officialaddress = new Address(str[2].trim());
+        this.fullName = str[0];
+        this.type = OrganizationType.getOrgType(str[1]);
+        this.officialaddress = new Address(str[2].trim());
 
     }
 
