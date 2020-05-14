@@ -1,0 +1,4 @@
+add {287095;NazarRusakow;687,351;2800.0;MANAGER;FIRED;NSI,PUBLIC,London}
+show
+info
+exit
