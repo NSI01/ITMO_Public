@@ -42,7 +42,7 @@ public class DataAnalyze {
      * @throws Exception - name of dissmatch
      */
     public boolean isMatchName() throws Exception {
-        if (Pattern.matches("[a-zA-zА-Яа-я]+", (dataArray[0] = dataArray[0].trim()))) return true;
+        if (Pattern.matches("\\w+", (dataArray[0] = dataArray[0].trim()))) return true;
         else {
             System.out.println("Incorrect Name " );
             throw new Exception("Name");
@@ -62,7 +62,7 @@ public class DataAnalyze {
         } catch (Exception i) {
             throw new Exception("Coordinates");
         }
-        if (Integer.parseInt(coordinates[0]) > Integer.valueOf(-687) && Pattern.matches("[+-]{0,1}[0-9]+",coordinates[1])) {
+        if (Integer.parseInt(coordinates[0]) > Integer.valueOf(-678) && Pattern.matches("[+-]{0,1}[0-9]+",coordinates[1])) {
             dataArray[1]= coordinates[0].concat("," + coordinates[1]);
             return true;
         }

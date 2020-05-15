@@ -31,13 +31,18 @@ public abstract   class CommandInitializator {
         String instring = "";
 
         System.out.println("Input main command please :");
-
-        if (inscanner.hasNext(/*"\\W+\\w+\\.+"*/)) {
+        try{
+        if (true) {
             while(instring.equals("")){
                 instring = inscanner.nextLine();
             }
         } else {
             instring = "";
+        } } catch (Exception e) {
+            System.out.println("Something went wrong and System.in closed ");
+            System.out.println("Programm will not work, without input, please rerun programm");
+            System.exit(1);
+            System.gc();
         }
         System.out.println("\"" + instring + "\"");
         initialize(instring.replace((char)13,' ').replace((char)10,' ').trim().split(" ",3), seth);

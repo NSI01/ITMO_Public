@@ -1,5 +1,7 @@
 package com.nsi.lab5.commandwork;
 
+import jdk.internal.util.xml.impl.ReaderUTF8;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
@@ -357,18 +359,28 @@ public abstract class TerminalCommands {
 
     }
 
-    ;
+
 
     public static String reads() {
         String instr = "";
-
         Scanner newscanner = new Scanner(System.in);
-
-        while (instr == "") {
-            instr = newscanner.nextLine();
-        }
-
+           try{
+            newscanner.reset();
+        do {
+             instr = newscanner.nextLine();
+        } while (instr == "");
         newscanner = null;
+        System.gc();
+    } catch (Exception e) {
+               System.out.println("Something went wrong and System.in closed ");
+               System.out.println("Programm will not work, without input, please rerun programm");
+               System.exit(1);
+               System.gc();
+           }
+           finally { System.gc();
+
+           }
+
 
         System.gc();
 
@@ -394,7 +406,7 @@ public abstract class TerminalCommands {
 
         while(!bool) {
             System.out.println("Enter Worker's name: ");
-            analyzeworkinf.dataArray[0] = TerminalCommands.reads();
+                analyzeworkinf.dataArray[0] = TerminalCommands.reads();
             try{
                 bool = analyzeworkinf.isMatchName();
             } catch(Exception e){
@@ -406,8 +418,13 @@ public abstract class TerminalCommands {
 
         while(!bool) {
             System.out.println("Enter " + analyzeworkinf.dataArray[0] + "'s Coordinates.x (x > -678) :");
-            analyzeworkinf.dataArray[1] = TerminalCommands.reads();
+                analyzeworkinf.dataArray[1] = TerminalCommands.reads();
             System.out.println("Enter Coordinates.y :");
+            String str = "";
+            /*while(String str != "")
+            {
+                analyzeworkinf.dataArray[4] = TerminalCommands.reads();
+            }*/
             analyzeworkinf.dataArray[1] = analyzeworkinf.dataArray[1].concat("," + TerminalCommands.reads());
             try{
                 bool = analyzeworkinf.isMatchCoordinate();
@@ -419,7 +436,8 @@ public abstract class TerminalCommands {
         bool = false;
         while(!bool) {
             System.out.println("Enter " + analyzeworkinf.dataArray[0] + "'s Salary");
-            analyzeworkinf.dataArray[2] = TerminalCommands.reads();
+                analyzeworkinf.dataArray[2] = TerminalCommands.reads();
+
             try{
                 bool = analyzeworkinf.isMatchSalary();
             } catch(Exception e){
@@ -430,7 +448,8 @@ public abstract class TerminalCommands {
         bool = false;
         while(!bool) {
             System.out.println("Enter " + analyzeworkinf.dataArray[0] + "'s Status \nIt can be: HIRED, FIRED, RECOMMENDED_FOR_PROMOTION, REGULAR, PROBATION");
-            analyzeworkinf.dataArray[3] = TerminalCommands.reads();
+                analyzeworkinf.dataArray[3] = TerminalCommands.reads();
+
             try{
                 bool = analyzeworkinf.isMatchStatus();
             } catch(Exception e){
@@ -441,7 +460,9 @@ public abstract class TerminalCommands {
         bool = false;
         while(!bool) {
             System.out.println("Enter " + analyzeworkinf.dataArray[0] + "'s Position\nIt can be:" + Position.DEVELOPER + ", " + Position.HEAD_OF_DEPARTMENT +", "+ Position.ENGINEER +", "+ Position.LABORER +", "+ Position.MANAGER);
-            analyzeworkinf.dataArray[4] = TerminalCommands.reads();
+
+                analyzeworkinf.dataArray[4] = TerminalCommands.reads();
+
             try{
                 bool = analyzeworkinf.isMatchPosition();
             } catch(Exception e){
@@ -455,7 +476,7 @@ public abstract class TerminalCommands {
             analyzeworkinf.dataArray[5] = TerminalCommands.reads();
             System.out.println("Enter Type of Organization It can be: " + OrganizationType.PRIVATE_LIMITED_COMPANY+", " + OrganizationType.GOVERNMENT +", "+ OrganizationType.PUBLIC);
             analyzeworkinf.dataArray[5] = analyzeworkinf.dataArray[5].concat("," + TerminalCommands.reads());
-            System.out.println("Enter Organization's Address ");
+            System.out.println("Enter Organization's City or ZipCode");
             analyzeworkinf.dataArray[5] = analyzeworkinf.dataArray[5].concat("," + TerminalCommands.reads());
 
             try{
